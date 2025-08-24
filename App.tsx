@@ -12,6 +12,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Login from "./screens/Login";
 import About from "screens/About";
 import { Colours } from "utils/Colours";
+import Profile from "screens/Profile";
+import Journal from "screens/Journal";
+import Exposure from "screens/Exposure";
+import Community from "screens/Community";
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,6 +24,7 @@ const Stack = createNativeStackNavigator();
 function Tabs() {
   return (
     <Tab.Navigator
+      id="rootTab"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: "white",
@@ -50,15 +55,15 @@ function Tabs() {
   );
 }
 
-function handleLogout(){
-  console.log('log out test');
-  
+function handleLogout() {
+  console.log("log out test");
 }
 
 function AppDrawer() {
   //const { signOut } = useAuth();
   return (
     <Drawer.Navigator
+      id="rootDrawer"
       drawerContent={(props) => (
         <View style={{ flex: 1, paddingTop: 40 }}>
           <DrawerItem
@@ -69,7 +74,7 @@ function AppDrawer() {
         </View>
       )}
     >
-       <Drawer.Screen name="Tabs" component={Tabs} />
+      <Drawer.Screen name="Tabs" component={Tabs} />
       <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>
   );
@@ -78,13 +83,18 @@ function AppDrawer() {
 function AuthStack() {
   return (
     <Stack.Navigator
+      id="rootStack"
       screenOptions={{
         headerStyle: { backgroundColor: Colours.baseBlue },
-        headerTitleStyle: { color: 'white' },
-        headerTintColor: 'white',
+        headerTitleStyle: { color: "white" },
+        headerTintColor: "white",
       }}
     >
-      <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "Login" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -97,10 +107,10 @@ export default function App() {
 
   return (
     // <AuthContext.Provider value={auth}>
-      <NavigationContainer>
-        {/* {signedIn ? <AppDrawer /> : <AuthStack />} */}
-        <AuthStack />
-      </NavigationContainer>
+    <NavigationContainer>
+      {/* {signedIn ? <AppDrawer /> : <AuthStack />} */}
+      <AuthStack />
+    </NavigationContainer>
     // </AuthContext.Provider>
   );
 }

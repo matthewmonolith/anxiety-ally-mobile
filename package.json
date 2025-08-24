@@ -9,6 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
+    "@react-native-async-storage/async-storage": "2.1.2",
     "@react-navigation/bottom-tabs": "^7.4.6",
     "@react-navigation/drawer": "^7.5.7",
     "@react-navigation/native-stack": "^7.3.25",
@@ -17,12 +19,14 @@
     "expo": "~53.0.20",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
+    "react-hook-form": "^7.62.0",
     "react-native": "0.79.5",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-reanimated": "~3.17.4",
     "react-native-worklets": "^0.4.1",
     "redux": "^5.0.1",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.3",
+    "zod": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
