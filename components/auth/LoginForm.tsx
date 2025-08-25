@@ -1,17 +1,16 @@
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   Image,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { loginValidationSchema } from "schemas/loginValidationSchema";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Colours } from "utils/Colours";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Input from "components/UI/Input";
 
 interface IFormInput {
   email: string;
@@ -35,51 +34,27 @@ const LoginForm = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/logo.png")} style={styles.logo} />
+      <Image source={require("../../assets/logo.png")} style={styles.logo} />
       <Text style={styles.title}>Anxiety Ally</Text>
 
-      <View style={styles.inputContainer}>
-        <Ionicons name="mail-outline" size={25} style={styles.icon} />
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-        {errors?.email?.message && (
-          <Text style={styles.errorText}>{errors.email.message}</Text>
-        )}
-      </View>
+      <Input<IFormInput>
+        control={control}
+        name="email"
+        iconName="mail-outline"
+        placeholder="Email"
+        keyboardType="email-address"
+        showError
+      />
 
-      <View style={styles.inputContainer}>
-        <Ionicons name="lock-closed-outline" size={25} style={styles.icon} />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-        {errors?.password?.message && (
-          <Text style={styles.errorText}>{errors.password.message}</Text>
-        )}
-      </View>
+      <Input<IFormInput>
+        control={control}
+        name="password"
+        iconName="lock-closed-outline"
+        placeholder="Password"
+        secureTextEntry
+        showError
+      />
+
 
       <TouchableOpacity onPress={() => navigation.navigate("Forget" as never)}>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
@@ -117,24 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     marginBottom: 40,
     fontWeight: "bold",
-    color: "black",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    height: 50,
-    backgroundColor: "#f1f1f1",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    height: "100%",
+    color: Colours.baseBlue,
   },
   forgotPassword: {
     alignSelf: "flex-end",
@@ -159,9 +117,5 @@ const styles = StyleSheet.create({
   },
   signUpLink: {
     color: "#1E90FF",
-  },
-  errorText: {
-    color: "red",
-    alignSelf: "center",
   },
 });

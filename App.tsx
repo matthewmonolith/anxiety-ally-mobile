@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import {
@@ -9,13 +9,18 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Login from "./screens/Login";
+import Login from "./screens/auth/Login";
 import About from "screens/About";
 import { Colours } from "utils/Colours";
 import Profile from "screens/Profile";
 import Journal from "screens/Journal";
 import Exposure from "screens/Exposure";
 import Community from "screens/Community";
+import SignUp from "screens/auth/SignUp";
+import { store, useFetchUserQuery } from "store";
+import { useState } from "react";
+import { Provider, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -95,22 +100,28 @@ function AuthStack() {
         component={Login}
         options={{ title: "Login" }}
       />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ title: "Sign Up" }}
+      />
     </Stack.Navigator>
   );
 }
 
 export default function App() {
-  // const [signedIn, setSignedIn] = useState(false);
-  // const signIn = useCallback(() => setSignedIn(true), []);
-  // const signOut = useCallback(() => setSignedIn(false), []);
-  // const auth = useMemo(() => ({ signedIn, signIn, signOut }), [signedIn, signIn, signOut]);
+  const token = useSelector((state) => state.auth.token);
+  const { data: user, isFetching } = useFetchUserQuery(undefined, {
+    skip: !token,
+  });
+  const signedIn = !!token && !!user
 
   return (
-    // <AuthContext.Provider value={auth}>
-    <NavigationContainer>
-      {/* {signedIn ? <AppDrawer /> : <AuthStack />} */}
-      <AuthStack />
-    </NavigationContainer>
-    // </AuthContext.Provider>
+    <Provider store={store}>
+      <NavigationContainer>
+        {signedIn ? <AppDrawer /> : <AuthStack />}
+        <AuthStack />
+      </NavigationContainer>
+    </Provider>
   );
 }
