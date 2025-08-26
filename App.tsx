@@ -1,11 +1,4 @@
-import { useEffect, useMemo } from "react";
-import { View } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-} from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,8 +14,8 @@ import { store, useFetchUserQuery } from "store";
 import { useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ProfileButton from "components/UI/ProfileButton";
 
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +29,7 @@ function Tabs() {
         tabBarInactiveTintColor: "rgba(255,255,255,0.6)",
         tabBarStyle: { backgroundColor: Colours.baseBlue },
         tabBarIcon: ({ color, size }) => {
-          const map: Record<string, keyof typeof Ionicons.glyphMap> = {
+          const icons = {
             Profile: "person-circle",
             Journal: "book",
             Exposure: "leaf",
@@ -44,7 +37,7 @@ function Tabs() {
           };
           return (
             <Ionicons
-              name={map[route.name] || "ellipse"}
+              name={icons[route.name]}
               size={size}
               color={color}
             />
@@ -52,7 +45,6 @@ function Tabs() {
         },
       })}
     >
-      <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Journal" component={Journal} />
       <Tab.Screen name="Exposure" component={Exposure} />
       <Tab.Screen name="Community" component={Community} />
@@ -60,68 +52,70 @@ function Tabs() {
   );
 }
 
-function handleLogout() {
-  console.log("log out test");
-}
+function AppRoot() {
+  // const token = useSelector((s: any) => s.auth.token);
+  // const { data: user } = useFetchUserQuery(undefined, { skip: !token });
+  // const signedIn = !!token && !!user;
+  const signedIn = true;
 
-function AppDrawer() {
-  //const { signOut } = useAuth();
   return (
-    <Drawer.Navigator
-      id="rootDrawer"
-      drawerContent={(props) => (
-        <View style={{ flex: 1, paddingTop: 40 }}>
-          <DrawerItem
-            label="About"
-            onPress={() => props.navigation.navigate("About")}
-          />
-          <DrawerItem label="Logout" onPress={handleLogout} />
-        </View>
-      )}
-    >
-      <Drawer.Screen name="Tabs" component={Tabs} />
-      <Drawer.Screen name="About" component={About} />
-    </Drawer.Navigator>
-  );
-}
-
-function AuthStack() {
-  return (
-    <Stack.Navigator
-      id="rootStack"
-      screenOptions={{
-        headerStyle: { backgroundColor: Colours.baseBlue },
-        headerTitleStyle: { color: "white" },
-        headerTintColor: "white",
-      }}
-    >
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ title: "Login" }}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{ title: "Sign Up" }}
-      />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator
+        id="rootStack"
+        screenOptions={{
+          headerStyle: { backgroundColor: Colours.baseBlue },
+          headerTitleStyle: { color: "white" },
+          headerTintColor: "white",
+        }}
+      >
+        {signedIn ? (
+          <>
+            <Stack.Screen
+              name="NavTabs"
+              component={Tabs}
+              options={({ navigation }) => ({
+                title: "Home",
+                headerRight: () => (
+                  <ProfileButton
+                    onPress={() => navigation.navigate("Profile")}
+                  />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                title: "Profile",
+                presentation: "modal",
+                gestureDirection: "vertical",
+                animation: "slide_from_bottom",
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ title: "Login" }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ title: "Sign Up" }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 export default function App() {
-  const token = useSelector((state) => state.auth.token);
-  const { data: user, isFetching } = useFetchUserQuery(undefined, {
-    skip: !token,
-  });
-  const signedIn = !!token && !!user
-
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        {signedIn ? <AppDrawer /> : <AuthStack />}
-        <AuthStack />
-      </NavigationContainer>
+      <AppRoot />
     </Provider>
   );
 }
