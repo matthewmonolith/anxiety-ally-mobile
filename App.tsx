@@ -15,6 +15,8 @@ import { useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProfileButton from "components/UI/ProfileButton";
+import IconButton from "components/UI/IconButton";
+import BackNavButton from "components/UI/BackNavButton";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,11 +38,7 @@ function Tabs() {
             Community: "people",
           };
           return (
-            <Ionicons
-              name={icons[route.name]}
-              size={size}
-              color={color}
-            />
+            <Ionicons name={icons[route.name]} size={size} color={color} />
           );
         },
       })}
@@ -63,9 +61,9 @@ function AppRoot() {
       <Stack.Navigator
         id="rootStack"
         screenOptions={{
-          headerStyle: { backgroundColor: Colours.baseBlue },
-          headerTitleStyle: { color: "white" },
-          headerTintColor: "white",
+          headerTransparent: true,
+          headerTitle: "",
+          contentStyle: { paddingTop: 130 },
         }}
       >
         {signedIn ? (
@@ -74,10 +72,16 @@ function AppRoot() {
               name="NavTabs"
               component={Tabs}
               options={({ navigation }) => ({
-                title: "Home",
-                headerRight: () => (
+                headerLeft: () => (
                   <ProfileButton
                     onPress={() => navigation.navigate("Profile")}
+                  />
+                ),
+                headerRight: () => (
+                  <IconButton
+                    iconName="help-circle"
+                    color={Colours.baseBlue}
+                    size={35}
                   />
                 ),
               })}
@@ -86,10 +90,17 @@ function AppRoot() {
               name="Profile"
               component={Profile}
               options={{
-                title: "Profile",
                 presentation: "modal",
                 gestureDirection: "vertical",
                 animation: "slide_from_bottom",
+                headerTitleAlign: "center",
+                headerTitle: 'Profile',
+                headerTintColor: 'white',
+                headerRight: () => <IconButton iconName="create-outline" size={25} color="white"/>,
+                contentStyle: {
+                  paddingTop: 120,
+                  backgroundColor: Colours.baseBlue,
+                },
               }}
             />
           </>

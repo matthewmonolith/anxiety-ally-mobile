@@ -27,7 +27,9 @@
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
     "typescript": "~5.8.3",
-    "zod": "^4.1.0"
+    "victory-native": "^41.19.3",
+    "zod": "^4.1.0",
+    "expo-font": "~13.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

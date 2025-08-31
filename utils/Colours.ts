@@ -1,4 +1,6 @@
 export const Colours = {
-    baseBlue: '#4682b4',
-    baseGreen: '#38a169'
+    baseBlue: '#828dab',
+    baseCream: '#f3efea',
+    baseOrange: '#f59553',
+    baseYellow: '#fdd48e'
 }
