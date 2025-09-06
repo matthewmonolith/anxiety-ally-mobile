@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProfileButton from "components/UI/ProfileButton";
 import IconButton from "components/UI/IconButton";
 import BackNavButton from "components/UI/BackNavButton";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -94,9 +95,15 @@ function AppRoot() {
                 gestureDirection: "vertical",
                 animation: "slide_from_bottom",
                 headerTitleAlign: "center",
-                headerTitle: 'Profile',
-                headerTintColor: 'white',
-                headerRight: () => <IconButton iconName="create-outline" size={25} color="white"/>,
+                headerTitle: "Profile",
+                headerTintColor: "white",
+                headerRight: () => (
+                  <IconButton
+                    iconName="create-outline"
+                    size={25}
+                    color="white"
+                  />
+                ),
                 contentStyle: {
                   paddingTop: 120,
                   backgroundColor: Colours.baseBlue,
@@ -125,8 +132,10 @@ function AppRoot() {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <AppRoot />
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <AppRoot />
+      </Provider>
+    </GestureHandlerRootView>
   );
 }

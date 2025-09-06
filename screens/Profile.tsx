@@ -1,11 +1,16 @@
 import ProfileButton from "components/UI/ProfileButton";
 import StatsCard from "components/UI/StatsCard";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import { Colours } from "utils/Colours";
 
-import { useFont } from "@shopify/react-native-skia";
-import LineChart from "components/UI/LineChart";
 import IconButton from "components/UI/IconButton";
+import BarChart from "components/UI/BarChart";
 
 const DATA = [
   { month: "Jan", avgMood: 3 },
@@ -69,29 +74,20 @@ const Profile = ({ navigation }) => {
             />
           </View>
         </View>
-        <LineChart
+        <BarChart
           data={DATA}
-          xAxis="month"
           yAxis="avgMood"
+          xAxis="month"
           heading="Your Monthly Average Mood"
         />
         <View style={styles.profileButtonsContainer}>
-          <TouchableOpacity style={styles.profileButton}>
-            <IconButton
-              iconName="information-circle-outline"
-              size={25}
-              color={Colours.baseOrange}
+          <View style={styles.backgroundImageContainer}>
+            <ImageBackground
+              source={require("../assets/Images/yoga.png")}
+              style={styles.backgroundImage}
             />
-            <Text>About</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.profileButton}>
-            <IconButton
-              iconName="log-out-outline"
-              size={25}
-              color={Colours.baseOrange}
-            />
-            <Text>Sign Out</Text>
-          </TouchableOpacity>
+          </View>
+          <IconButton iconName="log-out-outline" size={30} color="white" />
         </View>
       </View>
     </>
@@ -134,7 +130,11 @@ const styles = StyleSheet.create({
   },
   profileButtonsContainer: {
     alignSelf: "stretch",
-    marginTop: 20
+    marginBottom: 35,
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexDirection: "row",
   },
   profileButton: {
     display: "flex",
@@ -146,5 +146,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     maxWidth: 140,
     borderRadius: 10,
+  },
+  backgroundImageContainer: {
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  backgroundImage: {
+    width: 130,
+    height: 130,
   },
 });

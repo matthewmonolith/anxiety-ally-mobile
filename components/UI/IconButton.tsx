@@ -9,7 +9,7 @@ const IconButton = ({
 }: {
   iconName: keyof typeof Ionicons.glyphMap;
   color: string;
-  size?;
+  size?: number
   onPress?: () => void;
 }) => {
   return (
