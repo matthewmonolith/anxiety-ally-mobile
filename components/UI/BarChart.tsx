@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Colours } from "utils/Colours";
 import { CartesianChart, Bar } from "victory-native";
 import { useFont } from "@shopify/react-native-skia";
+import { useTheme } from "react-native-paper";
 
 
 const BarChart = <T,>({

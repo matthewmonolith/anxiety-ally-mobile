@@ -81,13 +81,12 @@ const Profile = ({ navigation }) => {
           heading="Your Monthly Average Mood"
         />
         <View style={styles.profileButtonsContainer}>
-          <View style={styles.backgroundImageContainer}>
+          {/* <View style={styles.backgroundImageContainer}>
             <ImageBackground
               source={require("../assets/Images/yoga.png")}
               style={styles.backgroundImage}
             />
-          </View>
-          <IconButton iconName="log-out-outline" size={30} color="white" />
+          </View> */}
         </View>
       </View>
     </>

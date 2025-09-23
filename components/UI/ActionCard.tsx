@@ -1,43 +1,22 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Card } from "react-native-paper";
+import { TouchableOpacity } from "react-native";
 
-import IconButton from "./IconButton";
-import { Colours } from "utils/Colours";
+type FeatureCardProps = {
+  image: any;
+  title: string;
+  onPress?: () => void;
+};
 
-const ActionCard = ({
-  actionText,
-}: {
-  actionText: string;
-}) => {
-  const { width, height } = useWindowDimensions();
+const ActionCard = ({ image, title, onPress }: FeatureCardProps) => {
   return (
-    <TouchableOpacity style={styles.actionCard}>
-      <View>
-        <IconButton iconName="add-outline" size={25} color="white" />
-      </View>
-      <Text style={styles.actionText}>{actionText}</Text>
-    </TouchableOpacity>
+    <Card style={{ margin: 10 }}>
+      <TouchableOpacity onPress={onPress}>
+        <Card.Cover source={image} />
+        <Card.Title title={title} style={{minHeight: 60}}/>
+      </TouchableOpacity>
+    </Card>
   );
 };
+
 export default ActionCard;
-const styles = StyleSheet.create({
-  actionCard: {
-    marginHorizontal: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colours.baseBlue,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 10
-  },
-  actionText: {
-    color: 'white',
-    fontSize: 18
-  },
-});

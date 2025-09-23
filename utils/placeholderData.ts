@@ -1,0 +1,168 @@
+import type { Item, Exposure } from "models";
+
+export const PLACEHOLDER_DATA: Item[] = [
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Went for a walk outside",
+    date: "Mon Sep 2 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Took the bus alone",
+    date: "Wed Sep 4 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Spoke in class",
+    date: "Fri Sep 6 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Ordered food in person",
+    date: "Sat Sep 7 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Made a phone call",
+    date: "Mon Sep 9 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Asked a stranger for directions",
+    date: "Wed Sep 11 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Presented in a meeting",
+    date: "Fri Sep 13 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Went for a jog",
+    date: "Fri Sep 13 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Took a train alone",
+    date: "Fri Sep 14 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Saw my boyfriend",
+    date: "Tue Nov 29 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Went outside with my boyfriend for 2 hours",
+    date: "Tue Nov 29 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Visited family",
+    date: "Tue Nov 29 2024",
+  },
+  {
+    id: Number(Math.random() * 1000000).toFixed(0),
+    title: "Visited a friend",
+    date: "Tue Nov 29 2024",
+  },
+];
+
+export const PLACEHOLDER_EXPOSURE_DATA: Exposure[] = [
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Went for a walk outside",
+    date: "Mon Sep 2 2024",
+    difficulty: "3",
+    caption: "Felt nervous at first, but calmed down after a few minutes.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Spoke to a stranger at the café",
+    date: "Tue Sep 3 2024",
+    difficulty: "5",
+    caption: "Heart was racing, but I managed a short conversation.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Took the bus during rush hour",
+    date: "Wed Sep 4 2024",
+    difficulty: "6",
+    caption: "Crowded and stressful, but I stayed until my stop.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Made a phone call I was avoiding",
+    date: "Thu Sep 5 2024",
+    difficulty: "4",
+    caption: "Voice was shaky but I finished the call successfully.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Attended a social gathering",
+    date: "Fri Sep 6 2024",
+    difficulty: "7",
+    caption: "Anxious at first, then relaxed after talking to a friend.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Sat alone in a busy park",
+    date: "Sat Sep 7 2024",
+    difficulty: "2",
+    caption: "Enjoyed watching people walk by, felt calm afterwards.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Ordered food at a restaurant",
+    date: "Sun Sep 8 2024",
+    difficulty: "3",
+    caption: "Felt nervous when ordering, but the staff were kind.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Shared my opinion in a group chat",
+    date: "Mon Sep 9 2024",
+    difficulty: "4",
+    caption: "Worried people would judge me, but they responded well.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Asked for help in a shop",
+    date: "Tue Sep 10 2024",
+    difficulty: "5",
+    caption: "Felt awkward, but the assistant was helpful.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Went to the gym",
+    date: "Wed Sep 11 2024",
+    difficulty: "6",
+    caption: "Felt self-conscious but finished my workout.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Asked for help in a shop",
+    date: "Tue Sep 10 2024",
+    difficulty: "5",
+    caption: "Felt awkward, but the assistant was helpful.",
+    image: "",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000),
+    title: "Asked for help in a shop",
+    date: "Tue Sep 10 2024",
+    difficulty: "5",
+    caption: "Felt awkward, but the assistant was helpful.",
+    image: "",
+  },
+];

@@ -1,9 +1,9 @@
 import ExposureItem from "components/exposure/ExposureItem";
-import ActionCard from "components/UI/ActionCard";
-import { useLayoutEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import type { ListRenderItem } from "react-native";
+import { Card } from "react-native-paper";
+import ActionCard from "components/UI/ActionCard";
 
 interface Exposure {
   id: string;
@@ -11,36 +11,23 @@ interface Exposure {
   date: string;
 }
 
-const PLACEHOLDER_DATA: Exposure[] = [
-  {
-    id: Number(Math.random() * 1000).toFixed(0),
-    title: "First exposure!",
-    date: new Date().toDateString(),
-  },
-];
-
-const renderExposureItem: ListRenderItem<Exposure> = ({ item }) => (
-  <ExposureItem title={item.title} date={item.date} />
-);
-
 const Exposure = ({ navigation }) => {
-  console.log(PLACEHOLDER_DATA[0].title);
-
   return (
-    <View>
-      <ActionCard actionText="Create New Exposure" />
-      <FlatList
-        data={PLACEHOLDER_DATA}
-        keyExtractor={(exposure) => exposure.id.toString()}
-        renderItem={renderExposureItem}
-        style={styles.exposureList}
-      />
+    <View style={styles.exposure}>
+      <ScrollView>
+        <ActionCard image={require("../assets/Images/exposure-two.png")} title="Phobia Exposures" onPress={() => navigation.navigate("PhobiaExposures")}/>
+        <ActionCard image={require("../assets/Images/social-exposure.png")} title="Social Anxiety Exposures"/>
+      </ScrollView>
     </View>
   );
 };
 export default Exposure;
 const styles = StyleSheet.create({
-  exposureList: {
-    marginTop: 10
-  }
+  exposure: {
+    display: "flex",
+    flex: 1,
+  },
+  exposureCard: {
+    margin: 10,
+  },
 });

@@ -1,10 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
+import ActionCard from "components/UI/ActionCard";
+import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 const Community = () => {
   return (
-    <View>
-      <Text>Community</Text>
-    </View>
-  )
-}
-export default Community
-const styles = StyleSheet.create({})
+    <ScrollView>
+      <ActionCard
+        title="Community Posts"
+        image={require("../assets/Images/posts.png")}
+      />
+      <ActionCard
+        title="Meditations & Resources"
+        image={require("../assets/Images/meditation.png")}
+      />
+    </ScrollView>
+  );
+};
+export default Community;

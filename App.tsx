@@ -1,23 +1,29 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  CommonActions,
+  getFocusedRouteNameFromRoute,
+} from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Login from "./screens/auth/Login";
-import About from "screens/About";
 import { Colours } from "utils/Colours";
 import Profile from "screens/Profile";
-import Journal from "screens/Journal";
+import Journal from "screens/Journal/Journal";
 import Exposure from "screens/Exposure";
 import Community from "screens/Community";
 import SignUp from "screens/auth/SignUp";
-import { store, useFetchUserQuery } from "store";
-import { useState } from "react";
-import { Provider, useSelector } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { store } from "store";
+import { Provider } from "react-redux";
 import ProfileButton from "components/UI/ProfileButton";
 import IconButton from "components/UI/IconButton";
-import BackNavButton from "components/UI/BackNavButton";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PaperProvider, BottomNavigation } from "react-native-paper";
+import ThoughtsJournal from "screens/Journal/ThoughtsJournal";
+import CreateJournalEntry from "screens/Journal/CreateJournalEntry";
+import PhobiaExposures from "screens/exposure/PhobiaExposures";
+import CreatePhobiaExposure from "screens/exposure/CreatePhobiaExposure";
+import EditPhobiaExposure from "screens/exposure/EditPhobiaExposure";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,28 +31,78 @@ const Stack = createNativeStackNavigator();
 function Tabs() {
   return (
     <Tab.Navigator
-      id="rootTab"
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "rgba(255,255,255,0.6)",
-        tabBarStyle: { backgroundColor: Colours.baseBlue },
-        tabBarIcon: ({ color, size }) => {
-          const icons = {
-            Profile: "person-circle",
-            Journal: "book",
-            Exposure: "leaf",
-            Community: "people",
-          };
-          return (
-            <Ionicons name={icons[route.name]} size={size} color={color} />
-          );
-        },
-      })}
+      id="rootApp"
+      screenOptions={{ headerShown: false }}
+      tabBar={({ navigation, state, descriptors, insets }) => (
+        <BottomNavigation.Bar
+          navigationState={state}
+          safeAreaInsets={insets}
+          onTabPress={({ route, preventDefault }) => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
+            if (event.defaultPrevented) {
+              preventDefault();
+            } else {
+              navigation.dispatch({
+                ...CommonActions.navigate(route.name, route.params),
+                target: state.key,
+              });
+            }
+          }}
+          renderIcon={({ route, focused, color }) =>
+            descriptors[route.key].options.tabBarIcon?.({
+              focused,
+              color,
+              size: 24,
+            }) ?? null
+          }
+          getLabelText={({ route }) => {
+            const { options } = descriptors[route.key];
+            const label =
+              typeof options.tabBarLabel === "string"
+                ? options.tabBarLabel
+                : typeof options.title === "string"
+                ? options.title
+                : route.name;
+            return label;
+          }}
+          activeColor="white"
+          activeIndicatorStyle={{ backgroundColor: Colours.baseOrange }}
+          inactiveColor="rgba(255,255,255,0.6)"
+          style={{ backgroundColor: Colours.baseBlue }}
+        />
+      )}
     >
-      <Tab.Screen name="Journal" component={Journal} />
-      <Tab.Screen name="Exposure" component={Exposure} />
-      <Tab.Screen name="Community" component={Community} />
+      <Tab.Screen
+        name="Journal"
+        component={Journal}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="book" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Exposure"
+        component={Exposure}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="leaf" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Community"
+        component={Community}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -64,7 +120,7 @@ function AppRoot() {
         screenOptions={{
           headerTransparent: true,
           headerTitle: "",
-          contentStyle: { paddingTop: 130 },
+          contentStyle: { paddingTop: 100 },
         }}
       >
         {signedIn ? (
@@ -72,20 +128,32 @@ function AppRoot() {
             <Stack.Screen
               name="NavTabs"
               component={Tabs}
-              options={({ navigation }) => ({
-                headerLeft: () => (
-                  <ProfileButton
-                    onPress={() => navigation.navigate("Profile")}
-                  />
-                ),
-                headerRight: () => (
-                  <IconButton
-                    iconName="help-circle"
-                    color={Colours.baseBlue}
-                    size={35}
-                  />
-                ),
-              })}
+              options={({ navigation, route }) => {
+                const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+
+                const titles: Record<string, string> = {
+                  Exposure: "Your Exposures",
+                  Journal: "Your Journal",
+                  Community: "Anxiety Ally Community",
+                };
+
+                return {
+                  headerTitle: titles[routeName] || "Anxiety Ally",
+                  headerTitleAlign: "center",
+                  headerLeft: () => (
+                    <ProfileButton
+                      onPress={() => navigation.navigate("Profile")}
+                    />
+                  ),
+                  headerRight: () => (
+                    <IconButton
+                      iconName="help-circle"
+                      color={Colours.baseBlue}
+                      size={35}
+                    />
+                  ),
+                };
+              }}
             />
             <Stack.Screen
               name="Profile"
@@ -99,14 +167,69 @@ function AppRoot() {
                 headerTintColor: "white",
                 headerRight: () => (
                   <IconButton
-                    iconName="create-outline"
-                    size={25}
+                    iconName="log-out-outline"
+                    size={30}
                     color="white"
                   />
                 ),
                 contentStyle: {
                   paddingTop: 120,
                   backgroundColor: Colours.baseBlue,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="Thoughts"
+              component={ThoughtsJournal}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "Thoughts & Feelings",
+                contentStyle: {
+                  paddingTop: 120,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="CreateJournal"
+              component={CreateJournalEntry}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "Create a new entry",
+                headerStyle: {
+                  backgroundColor: Colours.baseCream,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="PhobiaExposures"
+              component={PhobiaExposures}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "Your Exposures",
+                contentStyle: {
+                  paddingTop: 120,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="CreatePhobiaExposure"
+              component={CreatePhobiaExposure}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "Create a new exposure task",
+                contentStyle: {
+                  paddingTop: 120,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="EditPhobiaExposure"
+              component={EditPhobiaExposure}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "Update your exposure",
+                contentStyle: {
+                  paddingTop: 120,
                 },
               }}
             />
@@ -134,7 +257,9 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
-        <AppRoot />
+        <PaperProvider>
+          <AppRoot />
+        </PaperProvider>
       </Provider>
     </GestureHandlerRootView>
   );
