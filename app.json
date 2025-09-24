@@ -34,6 +34,12 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+           "RNMapboxMapsVersion": "11.0.0"
+        }
       ]
     ]
   }
