@@ -5,4 +5,5 @@ export type StackRoutes = {
   PhobiaExposures: undefined;
   CreatePhobiaExposure: undefined;
   EditPhobiaExposure: { data: { id: number; title: string; date: string } };
+  LocationPicker: { lat: number; lng: number };
 };

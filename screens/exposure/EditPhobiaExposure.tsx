@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import LocationPicker from "components/UI/forms/LocationPicker";
 
 interface routeParams {
   data: {
@@ -25,7 +26,7 @@ const EditPhobiaExposure = ({ route }: { route: { params: routeParams } }) => {
 
   return (
     <View>
-      <Text>{id}</Text>
+      <LocationPicker />
     </View>
   );
 };

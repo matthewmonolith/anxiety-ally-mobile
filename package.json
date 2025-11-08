@@ -34,7 +34,9 @@
     "redux": "^5.0.1",
     "typescript": "~5.8.3",
     "victory-native": "^41.19.3",
-    "zod": "^4.1.0"
+    "zod": "^4.1.0",
+    "react-native-maps": "1.20.1",
+    "expo-location": "~18.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

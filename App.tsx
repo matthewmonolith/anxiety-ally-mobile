@@ -24,14 +24,6 @@ import CreateJournalEntry from "screens/Journal/CreateJournalEntry";
 import PhobiaExposures from "screens/exposure/PhobiaExposures";
 import CreatePhobiaExposure from "screens/exposure/CreatePhobiaExposure";
 import EditPhobiaExposure from "screens/exposure/EditPhobiaExposure";
-import MapboxGl from "@rnmapbox/maps";
-
-MapboxGl.setAccessToken(
- process.env.EXPO_PUBLIC_MAPBOX_PUBLIC_TOKEN
-);
-MapboxGl.setConnected(true);
-MapboxGl.setTelemetryEnabled(false);
-MapboxGl.setWellKnownTileServer("Mapbox");
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
